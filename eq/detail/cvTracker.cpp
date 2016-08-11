@@ -106,7 +106,7 @@ void CVTracker::run()
 
     while( running_ )
     {
-        const cv::Mat frame = cvQueryFrame( capture_ );
+        const cv::Mat frame = cv::cvarrToMat(cvQueryFrame( capture_ ));
         if( frame.empty( ))
         {
             LBWARN << "Failure to grab a video frame, bailing" << std::endl;
