@@ -538,6 +538,11 @@ std::string Channel::getDumpImageFileName() const
     return name.str();
 }
 
+Image* Channel::getImage()
+{
+    return &_impl->framebufferImage;
+}
+
 //---------------------------------------------------------------------------
 // apply convenience methods
 //---------------------------------------------------------------------------
@@ -1354,7 +1359,8 @@ void Channel::_transmitImage( const co::ObjectVersion& frameDataVersion,
     co::ConstConnectionDescriptionPtr description =connection->getDescription();
 
     // use compression on links up to 2 GBit/s
-    const bool useCompression = ( description->bandwidth <= 262144 );
+    //oleg
+    const bool useCompression = false;//( description->bandwidth <= 262144 );
 
     std::vector< const PixelData* > pixelDatas;
     std::vector< float > qualities;

@@ -399,6 +399,13 @@ public:
      */
     EQ_API virtual std::string getDumpImageFileName() const;
 
+    
+    /**
+	 * Get image from frame buffer.
+	 * @return Image pointer.
+	 */
+    EQ_API Image* getImage();
+    
 protected:
     /** @internal */
     EQ_API void attach( const uint128_t& id, const uint32_t instanceID );
