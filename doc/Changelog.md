@@ -3,6 +3,16 @@ Changelog {#Changelog}
 
 # Release 1.13 (git master)
 
+* [585](https://github.com/Eyescale/Equalizer/pull/585):
+  Deflect proxy: update to Deflect 0.12 v5 API, use new PAN event to move
+  camera instead of switching between pan/rotate with TAP_AND_HOLD event,
+  handle new pinch event to zoom.
+* [584](https://github.com/Eyescale/Equalizer/pull/584):
+  Removed broken CUDA/ComputeContext support
+* [578](https://github.com/Eyescale/Equalizer/pull/578):
+  Application command line arguments are transmitted to render clients.
+  Subsets of environmental variables can also be transmitted based on their
+  prefixes.
 * [574](https://github.com/Eyescale/Equalizer/pull/574):
   Deflect proxy: Consider DEFLECT_ID, use deflect env for render clients
 * [572](https://github.com/Eyescale/Equalizer/pull/572):
