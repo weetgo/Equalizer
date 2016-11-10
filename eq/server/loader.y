@@ -1429,5 +1429,29 @@ ServerPtr Loader::parseServer( const char* data )
     return server;
 }
 
+void Loader::parseServer(ServerPtr server,const char* data)
+{
+    yyin       = 0;
+    yyinString = data;
+
+
+    eq::loader::loader = this;
+
+    loader::server = server;
+    config = 0;
+    yylineno = 0;
+
+    const std::string oldLocale = setlocale( LC_NUMERIC, "C" );
+    const bool error = ( eqLoader_parse() != 0 );
+    setlocale( LC_NUMERIC, oldLocale.c_str( ));
+
+    if( error )
+    loader::server = 0;
+
+    eq::loader::loader = 0;
+
+
+}
+
 }
 }

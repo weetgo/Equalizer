@@ -53,14 +53,23 @@ namespace server
          */
         EQSERVER_API ServerPtr parseServer( const char* config );
 
+        // weetgo@lxq 由eq/server/loader.y生成对应实现在 equalizer/build/eq/server/parser.cpp 中
         /**
-         * Add a Compound for each output channel.
-         *
-         * This function creates a compound for each output channel which is not
-         * used as a destination channel yet.
-         *
-         * @param server the server.
-         */
+        * 通过config指定解析服务
+        *
+        * @param 需要解析config的服务
+        * @param 指定的config内容
+        */
+        EQSERVER_API void parseServer(ServerPtr server,const char* config);
+
+        /**
+          * Add a Compound for each output channel.
+          *
+          * This function creates a compound for each output channel which is not
+          * used as a destination channel yet.
+          *
+          * @param server the server.
+          */
         EQSERVER_API static Compounds addOutputCompounds( ServerPtr server );
 
         /**
