@@ -169,13 +169,13 @@ void Server::handleCommands()
 
 bool Server::_cmdChooseConfig( co::ICommand& command )
 {
+    //oleg
     const uint32_t requestID = command.read< uint32_t >();
-    const fabric::ConfigParams& params = command.read< fabric::ConfigParams >();
-
-    LBVERB << "Handle choose config " << command << " req " << requestID
-           << " renderer " << params.getWorkDir() << '/'
-           << params.getRenderClient() << std::endl;
-
+    const std::string& sConfig = command.read<std::string>();
+    
+    eq::server::Loader loader;
+    loader.parseServer(this, sConfig.c_str());
+    
     Config* config = 0;
     const Configs& configs = getConfigs();
     for( ConfigsCIter i = configs.begin(); i != configs.end() && !config; ++i )
@@ -186,24 +186,9 @@ bool Server::_cmdChooseConfig( co::ICommand& command )
         if( !candidate->isUsed() && version == 1.2f )
             config = candidate;
     }
-
-#ifdef EQUALIZER_USE_HWSD
-    if( !config )
-    {
-        const std::string& configFile = command.read< std::string >();
-        config = config::Server::configure( this, configFile, params );
-        if( config )
-        {
-            config->register_();
-            LBDEBUG << lunchbox::disableFlush << lunchbox::disableHeader
-                   << "Configured:" << std::endl
-                   << lunchbox::indent << Global::instance() << *this
-                   << lunchbox::exdent << lunchbox::enableHeader
-                   << lunchbox::enableFlush << std::endl;
-        }
-    }
-#endif
-
+    
+    config->register_();
+    
     co::NodePtr node = command.getRemoteNode();
 
     if( !config )
@@ -215,11 +200,7 @@ bool Server::_cmdChooseConfig( co::ICommand& command )
 
     ConfigBackupVisitor backup;
     config->accept( backup );
-    config->setApplicationNetNode( node );
-    config->setWorkDir( params.getWorkDir( ));
-    config->setRenderClient( params.getRenderClient( ));
-    config->setRenderClientArgs( params.getRenderClientArgs( ));
-    config->setRenderClientEnvPrefixes( params.getRenderClientEnvPrefixes( ));
+    config->setApplicationNetNode(node);
     config->commit();
 
     node->send( fabric::CMD_SERVER_CREATE_CONFIG )
